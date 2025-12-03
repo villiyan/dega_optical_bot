@@ -1,0 +1,6 @@
+# Настройки конфигурации
+API_TOKEN = '613224456:AAHa1bK4lMkgeYKCGNMgl-YXHQ7EdjUv6Ck'
+REDIS_HOST = 'localhost'
+REDIS_PORT = 6379
+REDIS_DB_STATES = 1
+REDIS_DB_DATA = 2
