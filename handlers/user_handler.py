@@ -73,7 +73,7 @@ async def process_photo(message: Message, state: FSMContext, bot: Bot):
         # 3. Сохранение в Redis (Теперь вместе с полем prize!)
         key = f"user:{user_id}:image"
 
-        uni.safe_hset(data_client, key, {
+        await uni.safe_hset(data_client, key, {
             "image": image_data,
             "is_checked": "0",
             "created_at": time.time(),
@@ -81,7 +81,7 @@ async def process_photo(message: Message, state: FSMContext, bot: Bot):
         })
 
         # Уведомление админам
-        admins = data_client.smembers('admins')
+        admins = await data_client.smembers('admins')
         # Аккуратнее с декодированием, вдруг там пусто
         if admins:
             admins_list = [admin.decode() if isinstance(admin, bytes) else admin for admin in admins]

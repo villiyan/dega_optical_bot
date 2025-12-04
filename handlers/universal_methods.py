@@ -2,8 +2,9 @@ from aiogram import Bot
 from aiogram.fsm.context import FSMContext
 from database import data_client
 from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup
+import asyncio
 
-def safe_hgetall(client, key: str) -> dict:
+async def safe_hgetall(client, key: str) -> dict:
     result = client.hgetall(key)
     decoded = {}
     for k, v in result.items():
@@ -21,7 +22,7 @@ def safe_hgetall(client, key: str) -> dict:
         decoded[key_str] = value
     return decoded
 
-def safe_hset(client, key: str, mapping: dict):
+async def safe_hset(client, key: str, mapping: dict):
     key_type = client.type(key)
     if key_type != b'hash' and key_type != b'none':
         print(f"[safe_hset] WARNING: Key '{key}' is of type {key_type}, deleting it to avoid type conflict.")
@@ -30,7 +31,7 @@ def safe_hset(client, key: str, mapping: dict):
     client.hset(key, mapping=mapping)
 
 
-def get_all_images_sorted_by_time(client) -> list:
+async def get_all_images_sorted_by_time(client) -> list:
     """
     Получает все изображения пользователей из Redis,
     отсортированные по времени создания (от старых к новым).
@@ -51,7 +52,7 @@ def get_all_images_sorted_by_time(client) -> list:
     entries.sort()
     return entries
 
-def pop_oldest_and_delete(client):
+async def pop_oldest_and_delete(client):
     script = """
     local keys = redis.call('keys', 'user:*:image')
     if #keys == 0 then

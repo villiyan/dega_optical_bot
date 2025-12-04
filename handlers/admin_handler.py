@@ -1,4 +1,5 @@
 import html
+import asyncio
 from aiogram import Router, F, Bot
 from aiogram.types import Message, CallbackQuery, BufferedInputFile
 from aiogram.fsm.context import FSMContext
@@ -42,7 +43,7 @@ async def start_review(message: Message, state: FSMContext, bot: Bot):
 # --- ФУНКЦИЯ: ОТПРАВКА СЛЕДУЮЩЕГО ФОТО ---
 async def send_next_image(chat_id: int, state: FSMContext, bot: Bot):
     # Достаем заявку и сразу удаляем её из очереди (твой метод)
-    result = uni.pop_oldest_and_delete(data_client)
+    result = await uni.pop_oldest_and_delete(data_client)
 
     # Если заявок нет
     if not result:
