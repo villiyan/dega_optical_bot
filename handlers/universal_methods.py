@@ -28,7 +28,7 @@ async def safe_hset(client, key: str, mapping: dict):
         print(f"[safe_hset] WARNING: Key '{key}' is of type {key_type}, deleting it to avoid type conflict.")
         client.delete(key)
 
-    client.hset(key, mapping=mapping)
+    await client.hset(key, mapping=mapping)
 
 
 async def get_all_images_sorted_by_time(client) -> list:
