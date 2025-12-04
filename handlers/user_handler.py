@@ -19,7 +19,7 @@ class Img_Send(StatesGroup):
 @router.message(F.text == "/start")
 async def start(message: Message, state: FSMContext):
     user_id = message.from_user.id
-    is_admin = data_client.sismember('admins', user_id)
+    is_admin = await data_client.sismember('admins', user_id)
     if is_admin:
         await message.answer(f"Добрый день, {message.from_user.full_name}", reply_markup=admin_main_menu)
     else:
