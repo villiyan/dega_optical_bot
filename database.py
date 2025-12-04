@@ -1,16 +1,19 @@
-import redis
 import os
+from redis.asyncio import Redis # Используем асинхронный клиент!
 from aiogram.fsm.storage.redis import RedisStorage
-from сonfig import REDIS_HOST, REDIS_PORT, REDIS_DB_STATES, REDIS_DB_DATA
 
-# Формирование URL-строки для подключения к Redis
+# 1. Берем ссылку из настроек Render (или локалхост как запасной вариант)
 redis_url = os.getenv('REDIS_URL', 'redis://localhost:6379/0')
 
-# Настройка хранилища состояний для db0
-storage = RedisStorage.from_url(redis_url)
+# 2. Создаем data_client ПРАВИЛЬНО (через from_url)
+# Мы передаем туда redis_url, в котором уже зашит пароль и адрес
+data_client = Redis.from_url(
+    redis_url,
+    decode_responses=False # Обязательно False, так как мы храним картинки (байты)
+)
 
-# Подключение к db2 для хранения фактических данных
-data_client = redis.StrictRedis(host=REDIS_HOST, port=REDIS_PORT, db=REDIS_DB_DATA, decode_responses=False)
+# 3. Если тебе нужен storage для состояний в том же редисе:
+storage = RedisStorage.from_url(redis_url)
 
 # Настройка сохранения данных на диск
 def save_data_to_disk():
