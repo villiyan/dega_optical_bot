@@ -43,7 +43,7 @@ async def get_all_images_sorted_by_time(client) -> list:
 
     entries = []
     for key in keys:
-        data = safe_hgetall(client, key)
+        data = await safe_hgetall(client, key)
         image_data = data.get('image')
         created_at = float(data.get('created_at', 0))  # если нет created_at, ставим 0
         entries.append((created_at, key, image_data))
@@ -92,7 +92,7 @@ async def pop_oldest_and_delete(client):
     return key.decode() if isinstance(key, bytes) else key, data
 
 async def send_next_image(chat_id: int, state: FSMContext, bot: Bot):
-    result = pop_oldest_and_delete(data_client)
+    result = await pop_oldest_and_delete(data_client)
 
     if not result:
         await bot.send_message(chat_id, "Нет новых заявок для проверки.")
