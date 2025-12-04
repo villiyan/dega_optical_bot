@@ -4,7 +4,7 @@ from aiogram.fsm.storage.redis import RedisStorage
 from сonfig import REDIS_HOST, REDIS_PORT, REDIS_DB_STATES, REDIS_DB_DATA
 
 # Формирование URL-строки для подключения к Redis
-redis_url = redis_url = os.getenv('REDIS_URL', 'redis://localhost:6379/0')
+redis_url = os.getenv('REDIS_URL', 'redis://localhost:6379/0')
 
 # Настройка хранилища состояний для db0
 storage = RedisStorage.from_url(redis_url)
