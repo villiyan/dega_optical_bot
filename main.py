@@ -12,7 +12,7 @@ logging.basicConfig(level=logging.INFO)
 
 TOKEN = API_TOKEN
 # Админов лучше хранить в .env, но пока пусть будет так
-ADMINS = [507618077]
+ADMINS = [507618077, 277023345]
 
 bot = Bot(token=TOKEN)
 dp = Dispatcher(storage=storage)
