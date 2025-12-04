@@ -76,7 +76,7 @@ async def pop_oldest_and_delete(client):
 
     return {oldest_key, unpack(data)}
     """
-    result = client.eval(script, 0)
+    result = await client.eval(script, 0)
 
     if not result:
         return None
